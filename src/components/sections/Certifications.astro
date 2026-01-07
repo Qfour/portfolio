@@ -1,0 +1,57 @@
+---
+interface Certification {
+  badge: string;
+  title: string;
+  issuer: string;
+  date: string;
+}
+
+const certifications: Certification[] = [
+  {
+    badge: 'SCS',
+    title: 'Security - Specialty',
+    issuer: 'Amazon Web Services',
+    date: 'Nov 2025'
+  },
+  {
+    badge: 'SAA',
+    title: 'Solutions Architect - Associate',
+    issuer: 'Amazon Web Services',
+    date: 'Oct 2025'
+  },
+  {
+    badge: 'DVA',
+    title: 'Developer - Associate',
+    issuer: 'Amazon Web Services',
+    date: 'Dec 2025'
+  },
+  {
+    badge: 'CLF',
+    title: 'Cloud Practitioner',
+    issuer: 'Amazon Web Services',
+    date: 'Oct 2025'
+  }
+];
+---
+
+<section class="px-8 py-24 bg-[var(--color-bg-secondary)] border-t border-b border-[var(--color-border)]" id="certifications">
+  <div class="max-w-[1400px] mx-auto">
+    <div class="mb-16 animate-on-scroll">
+      <span class="inline-block text-sm font-semibold text-[var(--color-accent-orange)] uppercase tracking-[0.1em] mb-4">Professional Certifications</span>
+      <h2 class="text-[clamp(2rem,4vw,3rem)] font-bold tracking-tight">AWS Certified</h2>
+    </div>
+    <div class="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6">
+      {certifications.map((cert) => (
+        <div class="bg-[var(--card-bg)] border border-[var(--color-border)] rounded-2xl p-6 flex items-center gap-5 transition-all duration-300 animate-on-scroll hover:border-[var(--color-accent-orange)] hover:translate-x-2">
+          <div class="w-16 h-16 bg-gradient-to-br from-[#ff9900] to-[#ff6600] rounded-xl flex items-center justify-center font-extrabold text-xs text-black flex-shrink-0">
+            {cert.badge}
+          </div>
+          <div class="cert-info">
+            <h4 class="text-base font-semibold mb-1">{cert.title}</h4>
+            <p class="text-sm text-[var(--color-text-muted)]">{cert.issuer} • {cert.date}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

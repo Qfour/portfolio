@@ -1,0 +1,63 @@
+---
+interface ExperienceItem {
+  date: string;
+  company: string;
+  role: string;
+  achievements: string[];
+}
+
+const experiences: ExperienceItem[] = [
+  {
+    date: 'January 2024 - Present',
+    company: 'Sky Co., LTD.',
+    role: 'Site Reliability Engineer / Security Engineer',
+    achievements: [
+      'Built and drove company-wide adoption of observability platform using OpenTelemetry, Grafana Loki, VictoriaMetrics, and Grafana Tempo',
+      'Developed log analytics platform with Fluentd and ClickHouse',
+      'Architected OCSF-compliant Security Lake platform integrating Falco, AWS Security services, and ClickHouse',
+      'Deployed and operated Falco in on-premises environment and Sysdig in EKS environment',
+      'Conducted threat modeling for public-facing systems',
+      'Established internal controls for IPO readiness including access management, change management, BCP, and DR',
+      'Implemented Infrastructure as Code (IaC) and CI/CD pipelines for existing cloud resources'
+    ]
+  },
+  {
+    date: 'April 2019 - November 2023',
+    company: 'Hewlett Packard Japan, G.K.',
+    role: 'Technical Consultant',
+    achievements: [
+      'Delivered installation and startup services for Storage, Server, Network, and HCI products',
+      'Led service standardization for new products in the Japan market',
+      'Managed 52 projects annually with an average Net Promoter Score (NPS) of 9.3 out of 10',
+      'Served as primary contact for third-party products including Cohesity and Nutanix',
+      'Collaborated with Red Hat K.K. to deploy integrated HPE Synergy × Red Hat Ansible services',
+      'AI Starter Kit service deployment through cross-functional virtual team initiatives'
+    ]
+  }
+];
+---
+
+<section class="px-8 py-24" id="experience">
+  <div class="max-w-[1400px] mx-auto">
+    <div class="mb-16 animate-on-scroll">
+      <span class="inline-block text-sm font-semibold text-[var(--color-accent-orange)] uppercase tracking-[0.1em] mb-4">Career History</span>
+      <h2 class="text-[clamp(2rem,4vw,3rem)] font-bold tracking-tight">Professional Experience</h2>
+    </div>
+    <div class="relative pl-8 before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[2px] before:bg-gradient-to-b before:from-[var(--color-accent-orange)] before:via-[var(--color-accent-yellow)] before:to-[var(--color-border)]">
+      {experiences.map((exp, index) => (
+        <div class={`relative ${index === experiences.length - 1 ? '' : 'pb-12'} animate-on-scroll before:content-[''] before:absolute before:left-[-2rem] before:top-0 before:w-3 before:h-3 before:bg-[var(--color-accent-orange)] before:rounded-full before:-translate-x-[5px] before:shadow-[0_0_20px_rgba(255,107,53,0.5)]`}>
+          <div class="font-mono text-sm text-[var(--color-accent-orange)] mb-2">{exp.date}</div>
+          <h3 class="text-2xl font-bold mb-1">{exp.company}</h3>
+          <p class="text-base text-[var(--color-text-secondary)] mb-6">{exp.role}</p>
+          <ul class="list-none">
+            {exp.achievements.map((achievement) => (
+              <li class="relative pl-6 mb-3 text-[var(--color-text-secondary)] text-[0.95rem] before:content-['▸'] before:absolute before:left-0 before:text-[var(--color-accent-orange)]">
+                {achievement}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

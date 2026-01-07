@@ -1,0 +1,28 @@
+{
+  "$schema": "https://raw.githubusercontent.com/anthropics/claude-code/main/schemas/settings.json",
+  "permissions": {
+    "allow": [
+      "Read(**)",
+      "Write(src/**)",
+      "Write(public/**)",
+      "Write(*.config.*)",
+      "Write(*.json)",
+      "Write(.github/**)",
+      "Bash(pnpm:*)",
+      "Bash(npx:*)",
+      "Bash(git:*)",
+      "Bash(cat:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)"
+    ],
+    "deny": [
+      "Write(.env*)",
+      "Write(node_modules/**)",
+      "Bash(rm:-rf /*)",
+      "Bash(sudo:*)"
+    ]
+  },
+  "model": "claude-sonnet-4-20250514"
+}
