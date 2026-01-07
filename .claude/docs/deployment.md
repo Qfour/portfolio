@@ -10,92 +10,69 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://USERNAME.github.io',
-  base: '/REPO_NAME', // ルートリポジトリなら省略
-  output: 'static',
-  build: {
-    assets: 'assets',
-  },
+  site: 'https://09or1.github.io',
+  base: '/portfolio',
   vite: {
     plugins: [tailwindcss()],
   },
 });
 ```
 
-### GitHub Actions Workflow
+Current project settings:
+- Site: `https://09or1.github.io`
+- Base path: `/portfolio`
+- Package manager: `npm` (not pnpm)
 
-```yaml
-# .github/workflows/deploy.yml
-name: Deploy to GitHub Pages
+### GitHub Actions Workflows
 
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
+Two workflows are configured:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+#### 1. CI Checks (`.github/workflows/ci.yml`)
+Runs on PRs to `develop` and `main`:
+- TypeScript type checking
+- Build test
+- Output validation
 
-concurrency:
-  group: pages
-  cancel-in-progress: false
+#### 2. Deployment (`.github/workflows/deploy.yml`)
+Runs on push to `main`:
+- Builds the Astro site
+- Deploys to GitHub Pages
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Build
-        run: pnpm build
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-```
+See actual workflow files in `.github/workflows/` directory.
 
 ## Repository Setup
 
 ### 1. GitHub Pages有効化
 
 1. Repository → Settings → Pages
-2. Source: "GitHub Actions" を選択
+2. Source: **"GitHub Actions"** を選択（重要）
+3. Branch設定は不要（Actionsが自動管理）
 
-### 2. Base Path設定
+### 2. Branch Protection Rules
+
+#### `main` branch
+1. Repository → Settings → Branches → Add rule
+2. Branch name pattern: `main`
+3. Enable:
+   - ✓ Require a pull request before merging
+   - ✓ Require status checks to pass before merging
+   - ✓ Require branches to be up to date before merging
+   - Status checks: `TypeScript Type Check`, `Build Test`
+
+#### `develop` branch
+1. Add rule for `develop`
+2. Enable:
+   - ✓ Require status checks to pass before merging
+   - Status checks: `TypeScript Type Check`, `Build Test`
+
+### 3. Base Path設定
 
 | リポジトリ形式 | URL | base設定 |
 |---------------|-----|----------|
 | `username.github.io` | `https://username.github.io/` | 不要 |
 | `username/portfolio` | `https://username.github.io/portfolio/` | `base: '/portfolio'` |
+
+Current: `09or1/portfolio` → base: `/portfolio`
 
 ### 3. Custom Domain（オプション）
 
@@ -194,8 +171,8 @@ env:
 
 ```bash
 # ローカルでビルド確認
-pnpm build
-pnpm preview
+npm run build
+npm run preview
 ```
 
 ### Cache Issues
