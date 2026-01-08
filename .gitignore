@@ -1,5 +1,5 @@
 # build output
-dist/
+# dist/ ← ローカルビルド成果物をGitHub Pagesで直接配信するため除外しない
 .astro/
 
 # dependencies

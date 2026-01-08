@@ -1,6 +1,15 @@
-# Deployment Guide
+# Deployment Guide - Local Build Edition
 
-## GitHub Pages Configuration
+## Overview
+
+このプロジェクトは**ローカルビルド優先**の運用を採用しています：
+- 開発者がローカルでビルド実行
+- ビルド成果物（`dist/`）をGitにコミット
+- GitHub Pagesで静的ファイルを直接配信
+
+GitHub Actionsワークフローは無効化されています（将来利用時に `.disabled` 拡張子を削除）。
+
+## Local Build Configuration
 
 ### Astro Config
 
@@ -21,51 +30,64 @@ export default defineConfig({
 Current project settings:
 - Site: `https://09or1.github.io`
 - Base path: `/portfolio`
-- Package manager: `npm` (not pnpm)
+- Package manager: `npm`
+- Build output: `dist/` (Git管理対象)
 
-### GitHub Actions Workflows
+## Local Build & Deploy Workflow
 
-Two workflows are configured:
+### 1. Development & Build
 
-#### 1. CI Checks (`.github/workflows/ci.yml`)
-Runs on PRs to `develop` and `main`:
-- TypeScript type checking
-- Build test
-- Output validation
+```bash
+# 依存関係インストール
+npm install
 
-#### 2. Deployment (`.github/workflows/deploy.yml`)
-Runs on push to `main`:
-- Builds the Astro site
-- Deploys to GitHub Pages
+# 開発サーバー起動
+npm run dev
 
-See actual workflow files in `.github/workflows/` directory.
+# 型チェック
+npm run check
 
-## Repository Setup
+# 本番ビルド（dist/ディレクトリ生成）
+npm run build
 
-### 1. GitHub Pages有効化
+# ビルド結果の確認
+npm run preview
+```
+
+### 2. Deploy Process
+
+```bash
+# 1. ビルド実行
+npm run build
+
+# 2. .nojekyllファイル作成（GitHub Pages用）
+touch dist/.nojekyll
+
+# 3. 変更をコミット
+git add .
+git commit -m "feat: update portfolio with latest changes
+
+Co-Authored-By: Claude Sonnet 4 <noreply@anthropic.com>"
+
+# 4. GitHubにプッシュ
+git push origin main
+```
+
+### 3. GitHub Pages Setup
 
 1. Repository → Settings → Pages
-2. Source: **"GitHub Actions"** を選択（重要）
-3. Branch設定は不要（Actionsが自動管理）
+2. Source: **"Deploy from a branch"** を選択
+3. Branch: **"main"** を選択
+4. Folder: **"/ (root)"** を選択
+   - distディレクトリがルートにコミットされているため
 
-### 2. Branch Protection Rules
+### 4. Access Your Site
 
-#### `main` branch
-1. Repository → Settings → Branches → Add rule
-2. Branch name pattern: `main`
-3. Enable:
-   - ✓ Require a pull request before merging
-   - ✓ Require status checks to pass before merging
-   - ✓ Require branches to be up to date before merging
-   - Status checks: `TypeScript Type Check`, `Build Test`
+サイトURL: `https://09or1.github.io/portfolio`
 
-#### `develop` branch
-1. Add rule for `develop`
-2. Enable:
-   - ✓ Require status checks to pass before merging
-   - Status checks: `TypeScript Type Check`, `Build Test`
+## Configuration Notes
 
-### 3. Base Path設定
+### Base Path Setting
 
 | リポジトリ形式 | URL | base設定 |
 |---------------|-----|----------|
@@ -74,98 +96,33 @@ See actual workflow files in `.github/workflows/` directory.
 
 Current: `09or1/portfolio` → base: `/portfolio`
 
-### 3. Custom Domain（オプション）
+### File Structure (after build)
 
-1. `public/CNAME`を作成:
-   ```
-   yourdomain.com
-   ```
-
-2. astro.config.mjsを更新:
-   ```javascript
-   site: 'https://yourdomain.com',
-   // base不要
-   ```
-
-3. DNSレコード設定:
-   - A: `185.199.108.153`
-   - A: `185.199.109.153`
-   - A: `185.199.110.153`
-   - A: `185.199.111.153`
-   - または CNAME: `username.github.io`
-
-## Build Optimization
-
-### Image Optimization
-
-```javascript
-// astro.config.mjs
-export default defineConfig({
-  image: {
-    service: {
-      entrypoint: 'astro/assets/services/sharp',
-    },
-  },
-});
+```
+portfolio/
+├── dist/               # ビルド成果物（Git管理対象）
+│   ├── .nojekyll       # GitHub Pages用
+│   ├── index.html      # メインページ
+│   └── ...             # その他のアセット
+├── src/                # ソースコード
+├── .github/workflows/  # 無効化済み（*.disabled）
+└── astro.config.mjs    # Astro設定
 ```
 
-### Compression
+## Future: GitHub Actions
+
+将来的にGitHub Actionsを使用する場合：
 
 ```bash
-pnpm add -D @playform/compress
+# ワークフローを有効化
+mv .github/workflows/ci.yml.disabled .github/workflows/ci.yml
+mv .github/workflows/deploy.yml.disabled .github/workflows/deploy.yml
+
+# .gitignoreでdistを除外
+echo "dist/" >> .gitignore
 ```
-
-```javascript
-// astro.config.mjs
-import compress from '@playform/compress';
-
-export default defineConfig({
-  integrations: [compress()],
-});
-```
-
-## Environment Variables
-
-### Local Development
-
-```bash
-# .env.local (gitignore対象)
-PUBLIC_SITE_URL=http://localhost:4321
-```
-
-### Production
-
-GitHub Secrets経由（必要に応じて）:
-- Repository → Settings → Secrets and variables → Actions
-
-```yaml
-# workflow内で使用
-env:
-  PUBLIC_API_KEY: ${{ secrets.API_KEY }}
-```
-
-## Performance Checklist
-
-- [ ] Lighthouse Score 90+
-- [ ] 画像最適化（WebP/AVIF）
-- [ ] フォントサブセット化
-- [ ] Critical CSS インライン化
-- [ ] JavaScript最小化
-- [ ] gzip/brotli圧縮
 
 ## Troubleshooting
-
-### 404 on Subpages
-
-`base`設定が正しいか確認。全リンクで`base`を考慮:
-
-```astro
-<a href={`${import.meta.env.BASE_URL}projects`}>Projects</a>
-```
-
-### Assets Not Loading
-
-`base`パスがアセットURLに含まれているか確認。
 
 ### Build Failures
 
@@ -175,10 +132,12 @@ npm run build
 npm run preview
 ```
 
-### Cache Issues
+### 404 on GitHub Pages
 
-```yaml
-# workflowにキャッシュクリア追加
-- name: Clear cache
-  run: rm -rf node_modules/.cache
-```
+1. GitHub Pages設定を確認
+2. `dist/.nojekyll` ファイルが存在するか確認
+3. `base: '/portfolio'` 設定が正しいか確認
+
+### Assets Not Loading
+
+`base`パス設定が正しいか確認。Astroが自動的にアセットパスを調整します。
