@@ -40,18 +40,18 @@ const experiences: ExperienceItem[] = [
 <section class="px-8 py-24" id="experience">
   <div class="max-w-[1400px] mx-auto">
     <div class="mb-16 animate-on-scroll">
-      <span class="inline-block text-sm font-semibold text-[var(--color-accent-orange)] uppercase tracking-[0.1em] mb-4">Career History</span>
+      <span class="inline-block text-sm font-semibold text-[var(--color-accent-green)] uppercase tracking-[0.1em] mb-4">Career History</span>
       <h2 class="text-[clamp(2rem,4vw,3rem)] font-bold tracking-tight">Professional Experience</h2>
     </div>
-    <div class="relative pl-8 before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[2px] before:bg-gradient-to-b before:from-[var(--color-accent-orange)] before:via-[var(--color-accent-yellow)] before:to-[var(--color-border)]">
+    <div class="relative pl-8 before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[2px] before:bg-gradient-to-b before:from-[var(--color-accent-green)] before:via-[var(--color-accent-green-dark)] before:to-[var(--color-border)]">
       {experiences.map((exp, index) => (
-        <div class={`relative ${index === experiences.length - 1 ? '' : 'pb-12'} animate-on-scroll before:content-[''] before:absolute before:left-[-2rem] before:top-0 before:w-3 before:h-3 before:bg-[var(--color-accent-orange)] before:rounded-full before:-translate-x-[5px] before:shadow-[0_0_20px_rgba(255,107,53,0.5)]`}>
-          <div class="font-mono text-sm text-[var(--color-accent-orange)] mb-2">{exp.date}</div>
+        <div class={`relative ${index === experiences.length - 1 ? '' : 'pb-12'} animate-on-scroll before:content-[''] before:absolute before:left-[-2rem] before:top-0 before:w-3 before:h-3 before:bg-[var(--color-accent-green)] before:rounded-full before:-translate-x-[5px] before:shadow-[0_0_20px_rgba(189,247,139,0.5)]`}>
+          <div class="font-mono text-sm text-[var(--color-accent-green)] mb-2">{exp.date}</div>
           <h3 class="text-2xl font-bold mb-1">{exp.company}</h3>
           <p class="text-base text-[var(--color-text-secondary)] mb-6">{exp.role}</p>
           <ul class="list-none">
             {exp.achievements.map((achievement) => (
-              <li class="relative pl-6 mb-3 text-[var(--color-text-secondary)] text-[0.95rem] before:content-['▸'] before:absolute before:left-0 before:text-[var(--color-accent-orange)]">
+              <li class="relative pl-6 mb-3 text-[var(--color-text-secondary)] text-[0.95rem] before:content-['▸'] before:absolute before:left-0 before:text-[var(--color-accent-green)]">
                 {achievement}
               </li>
             ))}

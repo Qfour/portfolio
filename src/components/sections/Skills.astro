@@ -42,12 +42,12 @@ const skills: SkillCard[] = [
 <section class="px-8 py-24 bg-[var(--color-bg-secondary)] border-t border-b border-[var(--color-border)]" id="skills">
   <div class="max-w-[1400px] mx-auto">
     <div class="mb-16 animate-on-scroll">
-      <span class="inline-block text-sm font-semibold text-[var(--color-accent-orange)] uppercase tracking-[0.1em] mb-4">Technical Skills</span>
+      <span class="inline-block text-sm font-semibold text-[var(--color-accent-green)] uppercase tracking-[0.1em] mb-4">Technical Skills</span>
       <h2 class="text-[clamp(2rem,4vw,3rem)] font-bold tracking-tight">Technology Stack</h2>
     </div>
     <div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6">
       {skills.map((skill) => (
-        <div class="bg-[var(--card-bg)] border border-[var(--color-border)] rounded-2xl p-8 transition-all duration-300 relative overflow-hidden animate-on-scroll hover:-translate-y-1 hover:border-[rgba(255,107,53,0.3)] before:content-[''] before:absolute before:top-0 before:left-0 before:right-0 before:h-[3px] before:bg-gradient-to-r before:from-[var(--color-accent-orange)] before:to-[var(--color-accent-yellow)] before:scale-x-0 before:transition-transform before:duration-300 hover:before:scale-x-100">
+        <div class="bg-[var(--card-bg)] border border-[var(--color-border)] rounded-2xl p-8 transition-all duration-300 relative overflow-hidden animate-on-scroll hover:-translate-y-1 hover:border-[rgba(189,247,139,0.3)] before:content-[''] before:absolute before:top-0 before:left-0 before:right-0 before:h-[3px] before:bg-gradient-to-r before:from-[var(--color-accent-green)] before:to-[var(--color-accent-green-dark)] before:scale-x-0 before:transition-transform before:duration-300 hover:before:scale-x-100">
           <div class="w-12 h-12 flex items-center justify-center bg-[var(--color-bg-tertiary)] rounded-xl mb-6 text-2xl">
             {skill.icon}
           </div>

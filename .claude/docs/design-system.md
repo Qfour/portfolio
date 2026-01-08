@@ -2,43 +2,49 @@
 
 ## Colors
 
-oklch()形式でモダンなカラースペースを使用。
+Sysdigインスパイアのカラーパレット。モダンなテック系アプリらしいダークテーマベース。
 
 ### Palette
 
 ```css
 :root {
-  /* Primary */
-  --color-primary: oklch(65% 0.15 250);
-  --color-primary-hover: oklch(55% 0.15 250);
-  
-  /* Neutral */
-  --color-bg: oklch(98% 0.005 250);
-  --color-surface: oklch(100% 0 0);
-  --color-text: oklch(20% 0.02 250);
-  --color-text-muted: oklch(45% 0.02 250);
-  --color-border: oklch(90% 0.01 250);
-}
-
-.dark {
-  --color-bg: oklch(15% 0.02 250);
-  --color-surface: oklch(20% 0.02 250);
-  --color-text: oklch(95% 0.005 250);
-  --color-text-muted: oklch(65% 0.01 250);
-  --color-border: oklch(30% 0.02 250);
+  /* Sysdig-inspired color palette */
+  --color-bg-primary: #1E1E22;
+  --color-bg-secondary: #2a2a2e;
+  --color-bg-tertiary: #34343a;
+  --color-text-primary: #F9F9F9;
+  --color-text-secondary: #c0c0c8;
+  --color-text-muted: #8a8a92;
+  --color-accent-green: #BDF78B;
+  --color-accent-green-dark: #a8e574;
+  --color-border: #3a3a3e;
 }
 ```
 
+### Color Reference
+
+| 用途 | Color | Hex Code |
+|------|-------|----------|
+| Primary Background | Dark Charcoal | `#1E1E22` |
+| Secondary Background | Medium Gray | `#2a2a2e` |
+| Tertiary Background | Light Gray | `#34343a` |
+| Primary Text | Off-white | `#F9F9F9` |
+| Secondary Text | Light Gray | `#c0c0c8` |
+| Muted Text | Medium Gray | `#8a8a92` |
+| Accent (Primary) | Lime Green | `#BDF78B` |
+| Accent (Dark) | Dark Lime | `#a8e574` |
+| Border | Dark Gray | `#3a3a3e` |
+
 ### Tailwind Mapping
 
-| 用途 | Light | Dark |
-|------|-------|------|
-| Background | `bg-slate-50` | `dark:bg-slate-950` |
-| Surface | `bg-white` | `dark:bg-slate-900` |
-| Text | `text-slate-900` | `dark:text-slate-50` |
-| Muted | `text-slate-500` | `dark:text-slate-400` |
-| Border | `border-slate-200` | `dark:border-slate-800` |
-| Accent | `text-blue-600` | `dark:text-blue-400` |
+| 用途 | カスタムCSS変数 | 代替Tailwindクラス |
+|------|-------------|------------------|
+| Primary Background | `bg-[var(--color-bg-primary)]` | `bg-gray-900` |
+| Secondary Background | `bg-[var(--color-bg-secondary)]` | `bg-gray-800` |
+| Primary Text | `text-[var(--color-text-primary)]` | `text-gray-50` |
+| Muted Text | `text-[var(--color-text-muted)]` | `text-gray-400` |
+| Border | `border-[var(--color-border)]` | `border-gray-700` |
+| Accent | `text-[var(--color-accent-green)]` | `text-green-400` |
 
 ## Typography
 
@@ -96,12 +102,12 @@ max-w-6xl mx-auto px-4 md:px-8
 
 ```astro
 <button class="
-  px-6 py-3 
-  bg-blue-600 hover:bg-blue-700 
-  text-white font-medium 
-  rounded-lg 
+  px-6 py-3
+  bg-[var(--color-accent-green)] hover:bg-[var(--color-accent-green-dark)]
+  text-[var(--color-bg-primary)] font-medium
+  rounded-lg
   transition-colors
-  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2
+  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-green)] focus-visible:ring-offset-2
 ">
   Button Text
 </button>
@@ -111,11 +117,11 @@ max-w-6xl mx-auto px-4 md:px-8
 
 ```astro
 <article class="
-  bg-white dark:bg-slate-900 
-  border border-slate-200 dark:border-slate-800 
-  rounded-2xl 
+  bg-[var(--color-bg-secondary)]
+  border border-[var(--color-border)]
+  rounded-2xl
   overflow-hidden
-  hover:shadow-lg 
+  hover:shadow-lg
   transition-shadow
 ">
   <!-- content -->
@@ -126,9 +132,10 @@ max-w-6xl mx-auto px-4 md:px-8
 
 ```astro
 <a class="
-  text-blue-600 dark:text-blue-400 
-  hover:underline 
+  text-[var(--color-accent-green)]
+  hover:underline
   underline-offset-4
+  transition-colors
 ">
   Link Text
 </a>
